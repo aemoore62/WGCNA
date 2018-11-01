@@ -2939,7 +2939,7 @@ signedKME = function(datExpr, datME, outputColumnName="kME",
     warning(paste("Some module eigengenes are constant, which is suspicious.\n",
             "    Hint: consider removing constant columns from datME." ))
   no.presentdatExpr=colSums(!is.na(datExpr))
-  if (min(no.presentdatExpr)<..minNSamples ) 
+  if (min(no.presentdatExpr)<4 ) 
     warning(paste("Some gene expressions have fewer than 4 observations.\n",
             "    Hint: consider removing genes with too many missing values or collect more arrays."))
 
@@ -2947,7 +2947,7 @@ signedKME = function(datExpr, datME, outputColumnName="kME",
   corExpr = parse(text = paste("data.frame(", corFnc, "(datExpr, datME ", prepComma(corOptions), "))" ));
   output = eval(corExpr);
 
-  output[no.presentdatExpr<..minNSamples, ]=NA
+  output[no.presentdatExpr<4, ]=NA
   names(output)=paste(outputColumnName, substring(colnames(datME), first=3), sep="")  
   rownames(output) = colnames(datExpr) 
   output
